@@ -8,8 +8,8 @@ A multi-agent AI system built on the **Olist Brazilian E-Commerce Dataset** that
 
 ```
 project/
-├── notebook_1_data_preprocessing.ipynb   # EDA, cleaning, ML, exports
-├── notebook_2_multi_agent_system.ipynb   # RAG + multi-agent pipeline
+├── E_Commerce_Data_Preparation_&_Analysis.ipynb   # EDA, cleaning, ML, exports
+├── E_Commerce_Multi-Agent.ipynb   # RAG + multi-agent pipeline
 ├── streamlit_app.py                      # Deployed chat interface
 ├── requirements.txt
 ├── agent_data/
@@ -23,7 +23,7 @@ project/
 
 ---
 
-## Notebook 1 — Data Preprocessing & Machine Learning
+## E_Commerce_Data_Preparation_&_Analysis — Data Preprocessing & Machine Learning
 
 Loads the raw Olist dataset (9 CSV files), cleans and merges it, computes business KPIs, and applies machine learning to produce the inputs the agents rely on later.
 
@@ -49,7 +49,7 @@ Loads the raw Olist dataset (9 CSV files), cleans and merges it, computes busine
 
 ---
 
-## Notebook 2 — Multi-Agent System (RAG + LLM Agents)
+## E_Commerce_Multi-Agent — Multi-Agent System (RAG + LLM Agents)
 
 Builds the agent pipeline on top of Notebook 1's outputs and a business policy PDF, using **LangChain** and the **Groq API**.
 
@@ -123,7 +123,7 @@ streamlit run streamlit_app.py
    ```
    GROQ_API_KEY = "your_key_here"
    ```
-5. Deploy. The app is served at a persistent `https://your-app-name.streamlit.app` URL.
+5. Deploy. The app is served at a persistent `[https://your-app-name.streamlit.app](https://ecommercedataanalysisassistant-iee4ivfzjfup25tf5wjqgm.streamlit.app/)` URL.
 
 ### Interface
 The deployed app presents a chat-style interface (`st.chat_input` / `st.chat_message`) that keeps conversation history for the session and returns the Orchestrator's decision, the Insight Agent's analysis, and the Recommendation Agent's findings for each query.
