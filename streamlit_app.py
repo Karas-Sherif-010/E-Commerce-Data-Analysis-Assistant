@@ -330,25 +330,39 @@ def run_business_intelligence(query):
             "insights": insights, "recommendations": recommendations}
 
 
-# ================== Streamlit UI ==================
+# ================== Streamlit UI (Chat) ==================
 
 st.title("📊 E-Commerce Business Intelligence — Multi-Agent System")
+st.caption("Ask questions about sales, customers, products, or business policies.")
 
-query = st.text_area("Enter your question:", placeholder="e.g. Analyze our overall sales performance.")
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-if st.button("Analyze"):
-    if not query.strip():
-        st.warning("Please enter a question first.")
-    else:
+# Show chat history
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+# Chat input
+if user_query := st.chat_input("e.g. Analyze our overall sales performance."):
+    # Show user's message
+    st.session_state.messages.append({"role": "user", "content": user_query})
+    with st.chat_message("user"):
+        st.markdown(user_query)
+
+    # Run the pipeline and show assistant's reply
+    with st.chat_message("assistant"):
         with st.spinner("Agents are working... this may take a few minutes"):
-            result = run_business_intelligence(query)
+            result = run_business_intelligence(user_query)
 
-        st.subheader("Orchestrator Decision")
-        st.write(result.get("decision"))
+        reply_parts = [f"**Orchestrator Decision:** {result.get('decision')}"]
 
         if result.get("insights"):
-            st.subheader("Insights")
-            st.write(result.get("insights"))
+            reply_parts.append(f"**Insights:**\n\n{result.get('insights')}")
 
-        st.subheader("Recommendations")
-        st.write(result.get("recommendations"))
+        reply_parts.append(f"**Recommendations:**\n\n{result.get('recommendations')}")
+
+        full_reply = "\n\n---\n\n".join(reply_parts)
+        st.markdown(full_reply)
+
+    st.session_state.messages.append({"role": "assistant", "content": full_reply})
